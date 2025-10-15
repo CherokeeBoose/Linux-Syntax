@@ -567,6 +567,211 @@ df -h
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/xvda1      30G   15G   15G  50% /
 ```
+[Continuing with the guide...]
+
+## 6. Package Management
+
+### Basic Package Operations
+```bash
+# Update package list
+sudo yum update
+# or for Ubuntu:
+sudo apt update
+
+# What this does:
+# - Refreshes list of available packages
+# - Checks for security updates
+# - Prepares system for new installations
+
+### Installing Packages
+```bash
+# Install a package
+sudo yum install package_name -y
+
+# Example: Install web server
+sudo yum install httpd -y
+
+# The -y flag:
+# - Automatically answers "yes" to prompts
+# - Useful for scripting
+# - Be careful: verify package name first!
+
+# Expected Output:
+Dependencies resolved.
+================================================================================
+Package         Version            Repository                           Size
+================================================================================
+Installing:
+httpd           2.4.54-1          amzn2-core                         1.3 M
+```
+
+### Checking Package Status
+```bash
+# List installed packages
+yum list installed
+
+# Search for a package
+yum search package_name
+
+# Get package info
+yum info package_name
+
+# Example:
+yum info httpd
+
+# Expected Output:
+Name        : httpd
+Version     : 2.4.54
+Release     : 1.amzn2
+Size        : 1.3 M
+Description : The Apache HTTP Server
+```
+
+## 7. Basic Security
+
+### File Permissions Explained
+```bash
+# View file permissions
+ls -l script.sh
+
+# Expected Output:
+-rwxr-xr-x 1 ec2-user ec2-user 123 Oct 15 14:23 script.sh
+
+# Understanding permissions:
+# rwx       r-x       r-x
+# ↑         ↑         ↑
+# owner     group     others
+#
+# r = read (4)
+# w = write (2)
+# x = execute (1)
+```
+
+### Changing Permissions
+```bash
+# Change permissions using numbers
+chmod 755 script.sh
+
+# Common permission patterns:
+# 755 (-rwxr-xr-x) : Scripts and directories
+# 644 (-rw-r--r--) : Regular files
+# 600 (-rw-------) : Sensitive files
+
+# Using letters instead of numbers
+chmod u+x script.sh    # Add execute for user
+chmod g-w script.sh    # Remove write for group
+chmod o-rx script.sh   # Remove read/execute for others
+```
+
+### SSH Key Management
+```bash
+# Set correct permissions for SSH key
+chmod 400 my-key.pem
+
+# Common SSH errors and fixes:
+# "Permissions too open" → Use chmod 400
+# "Connection refused" → Check security group
+
+# SSH connection example
+ssh -i my-key.pem ec2-user@your-instance-ip
+```
+
+## 8. Network Basics
+
+### Checking Network Status
+```bash
+# Check IP address
+ip addr show
+# or traditional command:
+ifconfig
+
+# Expected Output:
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>
+      inet 172.31.0.100 netmask 255.255.240.0
+
+# Test connectivity
+ping -c 4 google.com
+
+# Expected Output:
+PING google.com (142.250.190.78) 56(84) bytes of data.
+64 bytes from sea30s10-in-f14.1e100.net: icmp_seq=1 ttl=105 time=1.23 ms
+```
+
+### Network Troubleshooting
+```bash
+# Check if port is open
+netstat -tulpn | grep LISTEN
+
+# Expected Output:
+tcp   0   0 0.0.0.0:80    0.0.0.0:*    LISTEN   1234/httpd
+tcp   0   0 0.0.0.0:22    0.0.0.0:*    LISTEN   5678/sshd
+
+# Test specific port
+telnet hostname 80
+# or
+nc -zv hostname 80
+```
+
+## 9. AWS Specific Operations
+
+### Instance Metadata
+```bash
+# Get instance metadata
+curl http://169.254.169.254/latest/meta-data/
+
+# Common metadata queries:
+curl http://169.254.169.254/latest/meta-data/instance-id
+curl http://169.254.169.254/latest/meta-data/local-ipv4
+
+# Expected Output:
+i-0123456789abcdef0  # Instance ID
+172.31.0.100         # Private IP
+```
+
+### AWS CLI Basic Operations
+```bash
+# Configure AWS CLI
+aws configure
+
+# List S3 buckets
+aws s3 ls
+
+# Copy file to S3
+aws s3 cp myfile.txt s3://my-bucket/
+
+# Expected Output:
+upload: ./myfile.txt to s3://my-bucket/myfile.txt
+```
+
+## 10. Basic Troubleshooting
+
+### Log Files
+```bash
+# View system logs
+sudo tail -f /var/log/syslog    # Ubuntu
+sudo tail -f /var/log/messages  # Amazon Linux
+
+# View web server logs
+sudo tail -f /var/log/httpd/access_log  # Apache
+sudo tail -f /var/log/nginx/access.log  # Nginx
+```
+
+### System Status
+```bash
+# Check system resources
+top
+
+# Check disk space
+df -h
+
+# Check memory
+free -m
+
+# Check service status
+sudo systemctl status servicename
+# Example:
+sudo systemctl status httpd
+```
 
 ## 1. Understanding File Permissions
 
