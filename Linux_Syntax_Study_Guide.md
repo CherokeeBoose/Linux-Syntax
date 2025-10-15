@@ -284,4 +284,183 @@ cat summary.txt
 
 ---
 
-© 2025 AWS Cloud Learning — Linux Fundamentals Week 2 Study Notes
+### Table of Contents
+1. [Understanding File Permissions](#1-understanding-file-permissions)
+2. [Changing File Permissions](#2-changing-file-permissions)
+3. [Users and Groups](#3-users-and-groups)
+4. [Password Security](#4-password-security)
+5. [SSH Security](#5-ssh-security)
+6. [System Updates](#6-system-updates)
+7. [Service Management](#7-service-management)
+
+## 1. Understanding File Permissions
+
+In Linux, every file and folder has permissions that control who can read, write, or execute them. This is crucial for security in cloud environments.
+
+```bash
+# View file permissions
+ls -l myfile.txt
+
+# Expected Output:
+-rw-r--r-- 1 ec2-user ec2-user 123 Oct 15 14:23 myfile.txt
+```
+
+Breaking down the permissions:
+```
+-    rw-    r--    r--
+↑     ↑      ↑      ↑
+type  owner  group  others
+```
+
+* First character indicates:
+  - `-` : Regular file
+  - `d` : Directory
+  - `l` : Symbolic link
+
+* Permission groups:
+  - Owner (your user)
+  - Group (users in the same group)
+  - Others (everyone else)
+
+* Permission types:
+  - `r` : Read
+  - `w` : Write
+  - `x` : Execute
+
+## 2. Changing File Permissions
+
+Use the `chmod` command to change permissions.
+
+```bash
+# Make a file readable and writable by owner, readable by others
+chmod 644 myfile.txt
+
+# Make a script executable
+chmod 755 myscript.sh
+
+# Common permission patterns:
+# 644 (-rw-r--r--) : Regular files
+# 755 (rwxr-xr-x)  : Scripts or directories
+# 600 (-rw-------)  : Sensitive files
+```
+
+Understanding numeric permissions:
+* 4 = Read
+* 2 = Write
+* 1 = Execute
+* Add them together for each group (owner/group/others)
+
+## 3. Users and Groups
+
+Managing users and groups is essential for controlling access.
+
+```bash
+# Check your username
+whoami
+
+# Check your groups
+groups
+
+# Expected Output:
+ec2-user wheel docker
+```
+
+View user information:
+```bash
+# Show current user and groups
+id
+
+# Expected Output:
+uid=1000(ec2-user) gid=1000(ec2-user) groups=1000(ec2-user),10(wheel)
+```
+
+## 4. Password Security
+
+Best practices for password management:
+
+```bash
+# Change your password
+passwd
+
+# View password status
+passwd -S
+
+# Lock an account
+sudo passwd -l username
+
+# Unlock an account
+sudo passwd -u username
+```
+
+Password Safety Rules:
+* Use strong passwords (mix of letters, numbers, symbols)
+* Don't reuse passwords
+* Change passwords regularly
+* Never share passwords
+
+## 5. SSH Security
+
+Basic SSH security for AWS EC2:
+
+```bash
+# Set correct permissions for SSH key
+chmod 400 mykey.pem
+
+# Safe connection using SSH key
+ssh -i mykey.pem ec2-user@your-instance-ip
+
+# Common SSH errors and fixes:
+# "Permissions too open" → chmod 400 mykey.pem
+# "Connection timed out" → Check security group rules
+```
+
+SSH Key Protection:
+* Keep private keys secure
+* Never share private keys
+* One key per person/purpose
+* Regular key rotation
+
+## 6. System Updates
+
+Keeping your system updated is crucial for security:
+
+```bash
+# Check for updates
+sudo yum check-update
+
+# Install all updates
+sudo yum update -y
+
+# Show installed packages
+yum list installed
+```
+
+Update Best Practices:
+* Regular updates
+* Schedule maintenance windows
+* Test updates in non-production first
+* Keep system logs for tracking
+
+## 7. Service Management
+
+Managing running services:
+
+```bash
+# List running services
+sudo systemctl list-units --type=service --state=running
+
+# Check specific service status
+sudo systemctl status servicename
+
+# Example: Check SSH service
+sudo systemctl status sshd
+```
+
+Security Tips:
+* Only run necessary services
+* Regular service audits
+* Monitor service logs
+* Keep services updated
+
+---
+
