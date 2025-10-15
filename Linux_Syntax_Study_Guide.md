@@ -284,14 +284,140 @@ cat summary.txt
 
 ---
 
-### Table of Contents
-1. [Understanding File Permissions](#1-understanding-file-permissions)
-2. [Changing File Permissions](#2-changing-file-permissions)
-3. [Users and Groups](#3-users-and-groups)
-4. [Password Security](#4-password-security)
-5. [SSH Security](#5-ssh-security)
-6. [System Updates](#6-system-updates)
-7. [Service Management](#7-service-management)
+## 1. Essential Commands
+
+### Getting Help
+```bash
+# View manual for any command
+man command_name
+# Example:
+man ls
+
+# Quick help for command
+command_name --help
+# Example:
+ls --help
+
+# What these commands teach you:
+# - How to use commands properly
+# - What options are available
+# - Examples of command usage
+```
+
+### Checking Your Identity
+```bash
+# Show current user
+whoami
+
+# Expected Output:
+ec2-user
+
+# Show system name
+hostname
+
+# Expected Output:
+ip-172-31-0-100.ec2.internal
+
+# Why this matters:
+# - Confirms your user permissions
+# - Verifies which system you're on
+# - Important for AWS EC2 management
+```
+
+### Viewing System Information
+```bash
+# Show operating system information
+uname -a
+
+# Expected Output:
+Linux ip-172-31-0-100 4.14.133-113.105.amzn2.x86_64 #1 SMP x86_64 x86_64 x86_64 GNU/Linux
+
+# Show system uptime
+uptime
+
+# Expected Output:
+14:23:45 up 7 days, 2:34, 1 user, load average: 0.00, 0.01, 0.05
+```
+
+## 2. File System Navigation
+
+### Understanding Your Location
+```bash
+# Print working directory
+pwd
+
+# Expected Output:
+/home/ec2-user
+
+# List files and directories
+ls
+
+# Common ls options:
+ls -l    # Long format
+ls -a    # Show hidden files
+ls -h    # Human-readable sizes
+
+# Expected Output:
+total 32
+drwxr-xr-x 2 ec2-user ec2-user 4096 Oct 15 14:23 Documents
+-rw-r--r-- 1 ec2-user ec2-user  123 Oct 15 14:22 file.txt
+```
+
+### Moving Around
+```bash
+# Change directory
+cd directory_name
+
+# Common cd shortcuts:
+cd ~         # Go to home directory
+cd ..        # Go up one directory
+cd -         # Go to previous directory
+
+# Examples:
+cd /var/log  # Go to logs directory
+cd ~/projects # Go to projects in home directory
+```
+
+### Using Tree Command
+```bash
+# First, install tree if not present
+sudo yum install -y tree   # Amazon Linux
+sudo apt install -y tree   # Ubuntu
+
+# View directory structure
+tree
+
+# Expected Output:
+.
+├── Documents
+│   └── project.txt
+├── Downloads
+└── scripts
+    └── backup.sh
+
+# Limit directory depth
+tree -L 2
+
+# Show only directories
+tree -d
+```
+
+[Would you like me to continue with the next sections? Each section will maintain this format with:
+- Clear explanations
+- Practical examples
+- Expected outputs
+- AWS context
+- Common issues and solutions]
+
+The next sections would cover:
+- File Operations (create, copy, move, delete)
+- Text Processing (viewing and editing files)
+- System Information (monitoring and status)
+- Package Management
+- Basic Security
+- Network Operations
+- AWS-Specific Operations
+
 
 ## 1. Understanding File Permissions
 
