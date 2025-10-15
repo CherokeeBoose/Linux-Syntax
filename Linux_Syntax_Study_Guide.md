@@ -401,23 +401,172 @@ tree -L 2
 # Show only directories
 tree -d
 ```
+[Continuing with the guide...]
 
-[Would you like me to continue with the next sections? Each section will maintain this format with:
-- Clear explanations
-- Practical examples
-- Expected outputs
-- AWS context
-- Common issues and solutions]
+## 3. File Operations
 
-The next sections would cover:
-- File Operations (create, copy, move, delete)
-- Text Processing (viewing and editing files)
-- System Information (monitoring and status)
-- Package Management
-- Basic Security
-- Network Operations
-- AWS-Specific Operations
+### Creating Files and Directories
+```bash
+# Create directory
+mkdir my_project
 
+# Create multiple directories
+mkdir -p project/src/main
+
+# The -p flag:
+# - Creates parent directories if they don't exist
+# - Prevents errors if directory exists
+# - Useful for scripting
+
+# Create empty file
+touch file.txt
+
+# Expected Output:
+$ ls -l
+total 4
+drwxr-xr-x 3 ec2-user ec2-user 4096 Oct 15 14:23 my_project
+-rw-r--r-- 1 ec2-user ec2-user    0 Oct 15 14:23 file.txt
+```
+
+### Copying Files
+```bash
+# Copy file
+cp source.txt destination.txt
+
+# Copy directory and its contents
+cp -r source_dir destination_dir
+
+# Common cp options:
+# -r : Copy directories recursively
+# -p : Preserve permissions
+# -v : Verbose (show what's being copied)
+
+# Examples:
+cp -v config.json backup/config.json
+cp -r ~/logs /var/tmp/logs_backup
+
+# Expected Output:
+'config.json' -> 'backup/config.json'
+```
+
+### Moving and Renaming
+```bash
+# Move file
+mv source.txt destination/
+
+# Rename file
+mv oldname.txt newname.txt
+
+# Move and rename
+mv ~/temp/file.txt ~/documents/newfile.txt
+
+# Tips:
+# - mv can move and rename in one command
+# - Use with caution to avoid overwriting files
+# - Use -i flag for interactive mode (asks before overwrite)
+```
+
+### Removing Files and Directories
+```bash
+# Remove file
+rm filename.txt
+
+# Remove empty directory
+rmdir empty_directory
+
+# Remove directory and contents
+rm -r directory_name
+
+# Safety tips:
+# -i : Interactive (asks before removal)
+# -f : Force removal (be careful!)
+
+# WARNING: Always double-check before using rm -rf
+# There's no recovery from deletion!
+```
+
+## 4. Text Processing
+
+### Viewing File Contents
+```bash
+# Display entire file
+cat filename.txt
+
+# View file page by page
+less filename.txt
+# less commands:
+# Space : Next page
+# b     : Previous page
+# q     : Quit
+# /word : Search for "word"
+
+# Show first 10 lines
+head filename.txt
+
+# Show last 10 lines
+tail filename.txt
+
+# Monitor file in real-time (useful for logs)
+tail -f /var/log/syslog
+```
+
+### Searching File Contents
+```bash
+# Search for pattern in file
+grep "search_term" filename.txt
+
+# Common grep options:
+grep -i "search"  # Case-insensitive
+grep -n "search"  # Show line numbers
+grep -r "search"  # Search recursively
+
+# Example: Find errors in log file
+grep -i "error" /var/log/syslog
+
+# Expected Output:
+Oct 15 14:23:45 ip-172-31-0-100 ERROR: Connection failed
+```
+
+### Basic Text Editing
+```bash
+# Open nano editor (beginner-friendly)
+nano filename.txt
+
+# Nano commands (shown at bottom of screen):
+# Ctrl + O : Save file
+# Ctrl + X : Exit
+# Ctrl + W : Search for text
+
+# Open vim editor (more powerful but complex)
+vim filename.txt
+
+# Vim basic commands:
+# i     : Enter insert mode
+# Esc   : Exit insert mode
+# :w    : Save file
+# :q    : Quit
+# :wq   : Save and quit
+```
+
+## 5. System Information
+
+### System Resources
+```bash
+# Show memory usage
+free -h
+
+# Expected Output:
+              total        used        free      shared  buff/cache   available
+Mem:           15Gi       1.5Gi        10Gi       0.0Gi       3.5Gi        13Gi
+Swap:           0B          0B          0B
+
+# Show disk space
+df -h
+
+# Expected Output:
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda1      30G   15G   15G  50% /
+```
 
 ## 1. Understanding File Permissions
 
